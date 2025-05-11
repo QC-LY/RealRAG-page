@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="RealRAG: Retrieval-augmented Realistic Image Generation via Self-reflective Contrastive Learning">
+  <meta name="keywords" content="RealRAG, Retrieval-augmented, Realistic Image Generation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RealRAG: Retrieval-augmented Realistic Image Generation via Self-reflective Contrastive Learning</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VTRKG1M81P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-VTRKG1M81P');
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?551198d302ba8da7fce58e95c5ec134f";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <!-- Three.js for 3D mesh rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/PLYLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <!-- <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://envision-research.hkust-gz.edu.cn/">
+        <span class="icon">
+          <i class="fas fa-home"></i>
+        </span>
+        <span>Envision Lab</span>
+      </a>
+    </div>
+  </div> -->
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title">RealRAG: Retrieval-augmented Realistic Image Generation via Self-reflective Contrastive Learning</h1>
+          <h4 class="subtitle publication-title" style="font-style: italic; color: #666; font-size: 1rem; margin-top: 1rem;">ICML 2025</h4>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://qc-ly.github.io/">Yuanhuiyi Lyu</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://zhengxujosh.github.io/">Xu Zheng</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://lutao2021.github.io">Lutao Jiang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=26yPSEcAAAAJ&hl=en">Yibo Yan</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=z39tx_sAAAAJ&hl=zh-CN">Xin Zou</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="">Huiyu Zhou</a><sup>2</sup>,</span>
+            <br>
+            <span class="author-block">
+              <a href="http://www.zhanglinfeng.tech/">Linfeng Zhang</a><sup>3</sup>,</span>
+            <span class="author-block">
+              <a href="https://xuminghu.github.io/">Xuming Hu</a><sup>1,2,4</sup>,</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou),</span>
+            <span class="author-block"><sup>2</sup>Guangxi Zhuang Autonomous Region Big Data Research Institute,</span>
+            <span class="author-block"><sup>3</sup>Shanghai Jiao Tong University</span>
+            <span class="author-block"><sup>4</sup>The Hong Kong University of Science and Technology</span>
+          </div>
+          
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal Contribution,</span>
+            <span class="author-block"><sup>†</sup>Corresponding Author</span>
+          </div> -->
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">ylyu650@connect.hkust-gz.edu.cn</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2502.00848"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://huggingface.co/LutaoJiang/DiMeR"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-cube"></i>
+                  </span>
+                  <span>Model</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Demo Link. -->
+              <!-- <span class="link-block">
+                <a href="https://huggingface.co/spaces/LTT/DiMeR"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      🤗
+                  </span>
+                  <span>HF Demo</span>
+                  </a>
+              </span> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <div class="publication-teaser">
+            <img src="./static/images/teaser.png" alt="DiMeR teaser figure">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent text-to-image generative models, e.g., Stable Diffusion V3 and Flux, have achieved notable progress. 
+            However, these models are strongly restricted to their limited knowledge, a.k.a., their own fixed parameters, that are trained with closed datasets. This leads to significant hallucinations or distortions when facing fine-grained and unseen novel real-world objects, e.g., the appearance of the Tesla Cybertruck.
+          </p>
+          <p>
+            To this end, we present the first real-object-based retrieval-augmented generation framework RealRAG, which augments fine-grained and unseen novel object generation by learning and retrieving real-world images to overcome the knowledge gaps of generative models. 
+            Specifically, to integrate missing memory for unseen novel object generation, we train a reflective retriever by self-reflective contrastive learning, which injects the generator's knowledge into the sef-reflective negatives, ensuring that the retrieved augmented images compensate for the model's missing knowledge. 
+            Furthermore, the real-object-based framework integrates fine-grained visual knowledge for the generative models, tackling the distortion problem and improving the realism for fine-grained object generation.
+          </p>
+          <p>
+            Our Real-RAG is superior in its modular application to all types of state-of-the-art text-to-image generative models and also delivers remarkable performance boosts with all of them, 
+            such as a gain of 16.18% FID score with the auto-regressive model on the Stanford Car benchmark.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Method</h2>
+        
+        <div class="content has-text-centered">
+          <img src="./static/images/method.png" alt="RealRAG Framework" class="framework-image">
+        </div>
+        
+        <div class="content has-text-justified">
+          <p>
+            An overview of our RealRAG. (a) The pipeline of the real-object-based RAG. We propose the first real-object-based retrieval-augmented generation framework, which leverages real-world images to compensate for the knowledge gap inherent in generative models and augment realistic image generation, (b) The framework of self-reflective contrastive learning, which injects the generator's knowledge into the self-reflective negatives ensuring that the retrieved images compensate for the model's missing knowledge.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Method. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Fine-grained Object Generation. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Fine-grained Object Generation</h2>
+        
+        <div class="content has-text-centered">
+          <img src="./static/images/results_1.png" alt="RealRAG fine-grained object generation results" class="framework-image">
+        </div>
+        
+        <div class="content has-text-justified">
+          <p>
+            The visual results of fine-grained object generation. We visually compare the images generated by the original generators and our RealRAG. We also add real-world images for reference.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Fine-grained Object Generation. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Unseen novel object generation. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Unseen Novel Object Generation</h2>
+        
+        <div class="content has-text-centered">
+          <img src="./static/images/results_2.png" alt="RealRAG unseen novel object generation results" class="framework-image">
+        </div>
+        
+        <div class="content has-text-justified">
+          <p>
+            The visual results of unseen novel object generation
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Unseen novel object generation. -->
+  </div>
+</section>
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+      @article{jiang2025dimer,
+        title={DiMeR: Disentangled Mesh Reconstruction Model},
+        author={Jiang, Lutao and Lin, Jiantao and Chen, Kanghao and Ge, Wenhang and Yang, Xin and Jiang, Yifan and Lyu, Yuanhuiyi and Zheng, Xu and Chen, Yingcong},
+        journal={arXiv preprint arXiv:2504.17670},
+        year={2025}
+      }
+    </code></pre>
+  </div>
+</section> -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Initialize 3D model viewers when DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    // All viewers use the same model files
+    initMeshViewer('mesh-viewer-1', './static/meshes/Battle_Mech.ply');
+    initMeshViewer('mesh-viewer-2', './static/meshes/sculpt.ply');
+    initMeshViewer('mesh-viewer-3', './static/meshes/teapot.ply');
+    initMeshViewer('mesh-viewer-4', './static/meshes/Charlie_Brown.ply');
+    initMeshViewer('mesh-viewer-5', './static/meshes/man_VR.ply');
+    initMeshViewer('mesh-viewer-6', './static/meshes/hat_frog.ply');
+    initMeshViewer('mesh-viewer-7', './static/meshes/3M_Vinyl_Tape_Green_1_x_36_yd.ply');
+    initMeshViewer('mesh-viewer-8', './static/meshes/Progressive_Rubber_Spatulas_3_count.ply');
+    initMeshViewer('mesh-viewer-9', './static/meshes/Pinwheel_Pencil_Case.ply');
+    initMeshViewer('mesh-viewer-10', './static/meshes/3D_Dollhouse_Refrigerator.ply');
+    
+  });
+
+  // Function to initialize 3D model viewer
+  function initMeshViewer(containerId, meshPath) {
+    // Get container dimensions
+    const container = document.getElementById(containerId);
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    
+    // Create status display element
+    const statusElement = document.createElement('div');
+    statusElement.style.position = 'absolute';
+    statusElement.style.top = '50%';
+    statusElement.style.left = '50%';
+    statusElement.style.transform = 'translate(-50%, -50%)';
+    statusElement.style.color = '#333';
+    statusElement.style.fontSize = '14px';
+    statusElement.textContent = 'Loading model...';
+    container.style.position = 'relative';
+    container.appendChild(statusElement);
+    
+    // Create scene, camera and renderer
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf0f0f0); // Dimmed background color
+    
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.z = 2;
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(width, height);
+    container.appendChild(renderer.domElement);
+    
+    // Add orbit controls for drag, zoom functionality
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.enableZoom = true;
+    
+    // Add lighting - reduced light intensity
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Dimmed ambient light
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7); // Dimmed directional light
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
+    
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4); // Dimmed auxiliary light source
+    directionalLight2.position.set(-1, -1, -1);
+    scene.add(directionalLight2);
+    
+    // Load PLY model
+    const loader = new THREE.PLYLoader();
+    loader.load(meshPath, function(geometry) {
+      // Center the geometry
+      geometry.computeBoundingBox();
+      const center = geometry.boundingBox.getCenter(new THREE.Vector3());
+      geometry.translate(-center.x, -center.y, -center.z);
+      
+      // Scale geometry to fit viewport
+      const size = geometry.boundingBox.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 1.5 / maxDim;
+      geometry.scale(scale, scale, scale);
+      
+      // Compute vertex normals for correct lighting
+      geometry.computeVertexNormals();
+      
+      // Use dimmed material
+      const material = new THREE.MeshPhongMaterial({
+        color: 0x999999, // Dimmed object color to dark grey
+        specular: 0x111111,
+        shininess: 15, // Reduced glossiness
+        flatShading: false
+      });
+      
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+      
+      // Modify initial rotation to correct upside-down models
+      mesh.rotation.x = Math.PI / 2;
+      mesh.rotation.z = Math.PI * 2 / 9;
+      mesh.rotation.z = Math.PI / 2;
+
+      // Remove status display
+      statusElement.style.opacity = '0';
+      setTimeout(() => statusElement.remove(), 1000);
+    }, 
+    // Progress callback
+    function(xhr) {
+      if (xhr.lengthComputable) {
+        statusElement.textContent = `Loading: ${Math.floor(xhr.loaded / xhr.total * 100)}%`;
+      }
+    },
+    // Error callback
+    function(error) {
+      console.error('Failed to load PLY file:', error);
+      statusElement.textContent = 'Unable to load 3D model';
+      
+      // Create a simple cube when loading fails
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const material = new THREE.MeshStandardMaterial({ color: 0x666666 }); // Dimmed backup model color
+      const cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+    });
+    
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    // Handle window resizing
+    window.addEventListener('resize', function() {
+      const newWidth = container.clientWidth;
+      const newHeight = container.clientHeight;
+      
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+      
+      renderer.setSize(newWidth, newHeight);
+    });
+  }
+
+  // Function to initialize OBJ model viewer
+  function initObjViewer(containerId, objPath, mtlPath) {
+    // Get container dimensions
+    const container = document.getElementById(containerId);
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    
+    // Create status display element
+    const statusElement = document.createElement('div');
+    statusElement.style.position = 'absolute';
+    statusElement.style.top = '50%';
+    statusElement.style.left = '50%';
+    statusElement.style.transform = 'translate(-50%, -50%)';
+    statusElement.style.color = '#333';
+    statusElement.style.fontSize = '14px';
+    statusElement.textContent = 'Loading model...';
+    container.style.position = 'relative';
+    container.appendChild(statusElement);
+    
+    // Create scene, camera and renderer
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf0f0f0); // Dimmed background color
+    
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.z = 1.3; // Change camera position from 2 to 1.2 for closer view
+    
+    // Improved renderer settings, disable transparency
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true,
+      alpha: false 
+    });
+    renderer.setSize(width, height);
+    container.appendChild(renderer.domElement);
+    
+    // Add orbit controls for drag, zoom functionality
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.enableZoom = true;
+    
+    // Enhanced lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Increased ambient light intensity
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9); // Increased directional light intensity
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
+    
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.6); // Increased auxiliary light intensity
+    directionalLight2.position.set(-1, -1, -1);
+    scene.add(directionalLight2);
+    
+    // Load OBJ model
+    const mtlLoader = new THREE.MTLLoader();
+    mtlLoader.setPath(mtlPath.substring(0, mtlPath.lastIndexOf('/') + 1)); // Set correct material path
+    mtlLoader.load(mtlPath.split('/').pop(), function(materials) {
+      materials.preload();
+      
+      const objLoader = new THREE.OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.setPath(objPath.substring(0, objPath.lastIndexOf('/') + 1)); // Set correct model path
+      objLoader.load(objPath.split('/').pop(), function(object) {
+        // Traverse all materials and ensure opacity
+        object.traverse(function(child) {
+          if (child instanceof THREE.Mesh) {
+            if (child.material) {
+              if (Array.isArray(child.material)) {
+                child.material.forEach(mat => {
+                  mat.transparent = false;
+                  mat.opacity = 1.0;
+                  mat.side = THREE.DoubleSide; // Render both sides
+                });
+              } else {
+                child.material.transparent = false;
+                child.material.opacity = 1.0;
+                child.material.side = THREE.DoubleSide; // Render both sides
+              }
+            }
+          }
+        });
+        
+        // Center the geometry
+        const box = new THREE.Box3().setFromObject(object);
+        const center = box.getCenter(new THREE.Vector3());
+        object.position.sub(center);
+        
+        // Scale geometry to fit viewport
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 1.5 / maxDim;
+        object.scale.set(scale, scale, scale);
+        
+        // Adjust model rotation for better display
+        object.rotation.x = -Math.PI / 6;
+        object.rotation.y = Math.PI / 4;
+        
+        scene.add(object);
+        
+        // Remove status display
+        statusElement.style.opacity = '0';
+        setTimeout(() => statusElement.remove(), 1000);
+      }, 
+      // Progress callback
+      function(xhr) {
+        if (xhr.lengthComputable) {
+          statusElement.textContent = `Loading: ${Math.floor(xhr.loaded / xhr.total * 100)}%`;
+        }
+      },
+      // Error callback
+      function(error) {
+        console.error('Failed to load OBJ file:', error);
+        statusElement.textContent = 'Unable to load 3D model';
+        
+        // Create a simple cube when loading fails
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshStandardMaterial({ 
+          color: 0x666666,
+          transparent: false 
+        });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+      });
+    },
+    undefined,
+    function(error) {
+      console.error('Failed to load MTL file:', error);
+      
+      // Attempt to load OBJ without material if MTL fails
+      const objLoader = new THREE.OBJLoader();
+      objLoader.load(objPath, function(object) {
+        // Use default material
+        object.traverse(function(child) {
+          if (child instanceof THREE.Mesh) {
+            child.material = new THREE.MeshPhongMaterial({
+              color: 0x999999,
+              specular: 0x111111,
+              shininess: 15,
+              transparent: false,
+              side: THREE.DoubleSide
+            });
+          }
+        });
+        
+        // Center the geometry
+        const box = new THREE.Box3().setFromObject(object);
+        const center = box.getCenter(new THREE.Vector3());
+        object.position.sub(center);
+        
+        // Scale geometry to fit viewport
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 1.5 / maxDim;
+        object.scale.set(scale, scale, scale);
+        
+        scene.add(object);
+        
+        // Remove status display
+        statusElement.style.opacity = '0';
+        setTimeout(() => statusElement.remove(), 1000);
+      });
+    });
+    
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    // Handle window resizing
+    window.addEventListener('resize', function() {
+      const newWidth = container.clientWidth;
+      const newHeight = container.clientHeight;
+      
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+      
+      renderer.setSize(newWidth, newHeight);
+    });
+  }
+</script>
+
+</body>
+</html>

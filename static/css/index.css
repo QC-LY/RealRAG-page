@@ -1,0 +1,290 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+
+.publication-title {
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+
+.interpolation-panel {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.interpolation-video-column {
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+#interpolation-image-wrapper {
+  width: 100%;
+}
+#interpolation-image-wrapper img {
+  border-radius: 5px;
+}
+
+/* Enlarge subtitle */
+.subtitle.publication-title {
+  font-size: 1.8rem !important; /* Increased from 1.8rem to 2.2rem */
+  margin-top: 0.5rem; /* Add top margin */
+  margin-bottom: 1.5rem; /* Add bottom margin */
+  font-weight: 600; /* Display in bold */
+}
+
+/* 3D Mesh Viewer Styles */
+.mesh-viewer-container {
+  width: 100%;
+  height: 400px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Ensure canvas elements fill the container */
+.mesh-viewer-container canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* 3D Mesh Viewer Styles */
+.mesh-grid {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.mesh-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.mesh-container {
+  width: 31%;
+  margin-bottom: 1.5rem;
+}
+
+/* Image-to-3D section specific styles */
+.image-mesh-pair {
+  width: 45%; /* Increase width to only fit two elements per row */
+  margin-bottom: 2rem;
+  margin-right: 2%; /* Increase spacing between elements */
+  margin-left: 2%;
+  display: inline-block;
+}
+
+.image-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #dddddd; /* Add border */
+}
+
+.input-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 6px; /* Add padding so the image doesn't touch the border */
+}
+
+.mesh-viewer {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0; /* Slightly gray background */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Ensure grid displays well on small screens */
+@media screen and (max-width: 768px) {
+  .mesh-container {
+    width: 48%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .mesh-container {
+    width: 100%;
+  }
+}
+
+/* Add this class for the comparison tables to ensure they have the same height */
+.comparison-table {
+  height: 300px;
+  width: auto;
+  object-fit: contain;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Add a container class to help with alignment */
+.comparison-tables-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.comparison-table-column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+/* Ensure tables display well on smaller screens */
+@media screen and (max-width: 768px) {
+  .comparison-tables-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .comparison-table-column {
+    width: 100%;
+  }
+}
